@@ -1,3 +1,4 @@
+#include "program_specs.h"
 #include "raygui.h"
 #include "image_displayer.h"
 /* -------------------------------------------------------------------------- */
@@ -10,13 +11,11 @@
 /* -------------------------------------------------------------------------- */
 
 void FileSelect(Image &image, char fileNameToLoad[512]);
-void Pixelate(Image &image);
+void Pixelate(Image &image, int numberOfPixels);
 
 int main(void) {
-    constexpr int SCREEN_W = 800;
-    constexpr int SCREEN_H = 800;
 
-    InitWindow(SCREEN_W, SCREEN_H, "WINDOW");
+    InitWindow(SCREEN_SIZE, SCREEN_SIZE, "WINDOW");
     SetTargetFPS(60); //can comment out
     SetWindowTitle("Nobonoko generator!");
     
@@ -31,7 +30,7 @@ int main(void) {
             ClearBackground(GetColor(GuiGetStyle(DEFAULT, BACKGROUND_COLOR)));
             ImageDisplayer::Display();
             FileSelect(image, fileNameToLoad);
-            Pixelate(image);
+            Pixelate(image, 50);
         
         EndDrawing();
     }

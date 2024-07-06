@@ -1,3 +1,4 @@
+#include "../lib/program_specs.h"
 #include "../lib/image_displayer.h"
 
 Image ImageDisplayer::image = {0};
@@ -8,17 +9,18 @@ void ImageDisplayer::ImageDisplayer::Display() {
         return;
     
     DrawTexture(ImageDisplayer::texture,
-                GetScreenWidth()/2 - ImageDisplayer::texture.width/2,
-                GetScreenHeight()/2 - ImageDisplayer::texture.height/2 - 5,
+                GetScreenWidth()/2 - IMAGE_SIZE/2,
+                GetScreenHeight()/2 - IMAGE_SIZE/2 - 5,
                 WHITE);
-    DrawRectangleLines(GetScreenWidth()/2 - ImageDisplayer::texture.width/2,
-                       GetScreenHeight()/2 - ImageDisplayer::texture.height/2 - 5,
-                       ImageDisplayer::texture.width,
-                       ImageDisplayer::texture.height,
+    DrawRectangleLines(GetScreenWidth()/2 - IMAGE_SIZE/2,
+                       GetScreenHeight()/2 - IMAGE_SIZE/2 - 5,
+                       IMAGE_SIZE,
+                       IMAGE_SIZE,
                        BLACK);
 }
 
 void ImageDisplayer::Update(Image &image) {
+    ImageResize(&image, IMAGE_SIZE, IMAGE_SIZE);
     ImageDisplayer::image = image;
     ImageDisplayer::texture = LoadTextureFromImage(image);
 }

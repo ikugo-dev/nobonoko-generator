@@ -1,3 +1,4 @@
+#include "program_specs.h"
 #include "raylib.h"
 #include "image_displayer.h"
 
@@ -12,10 +13,6 @@ GuiWindowFileDialogState fileDialogState =
                         InitGuiWindowFileDialog(GetWorkingDirectory());
 
 void FileSelect(Image &image, char fileNameToLoad[512]) {
-
-    fileDialogState.supportDrag = false; //we can add this later
-    fileDialogState.windowBounds = (Rectangle){ 100, 100, 500, 500 };
-
 /* --------------------------------- update --------------------------------- */
     if (fileDialogState.SelectFilePressed)
     {
@@ -27,7 +24,6 @@ void FileSelect(Image &image, char fileNameToLoad[512]) {
                                fileDialogState.dirPathText,
                                fileDialogState.fileNameText));
             image = LoadImage(fileNameToLoad);
-            ImageResize(&image, 500, 500);
 
             ImageDisplayer::Update(image);
         }

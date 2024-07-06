@@ -1,0 +1,2 @@
+#define SCREEN_SIZE 800
+#define IMAGE_SIZE 500
