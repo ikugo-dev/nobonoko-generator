@@ -10,8 +10,7 @@
 // Copyright (c) 2020-2023 raylib technologies (@raylibtech)                    //
 //                                                                              //
 //////////////////////////////////////////////////////////////////////////////////
-#include <stdlib.h>
-#include <string.h>
+
 
 #define DARK_STYLE_PROPS_COUNT  23
 

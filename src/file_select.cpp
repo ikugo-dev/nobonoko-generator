@@ -12,6 +12,7 @@ GuiWindowFileDialogState fileDialogState =
                         InitGuiWindowFileDialog(GetWorkingDirectory());
 
 void FileSelect(Image &image, char fileNameToLoad[512]) {
+
     fileDialogState.supportDrag = false; //we can add this later
     fileDialogState.windowBounds = (Rectangle){ 100, 100, 500, 500 };
 

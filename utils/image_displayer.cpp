@@ -1,4 +1,4 @@
-#include "image_displayer.h"
+#include "../lib/image_displayer.h"
 
 Image ImageDisplayer::image = {0};
 Texture2D ImageDisplayer::texture;
