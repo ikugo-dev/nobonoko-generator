@@ -1,5 +1,12 @@
+#include "raylib.h"
 #include "image_displayer.h"
-#include "simple_include.h"
+
+#define RAYGUI_IMPLEMENTATION
+#include "raygui.h"
+
+#undef RAYGUI_IMPLEMENTATION            // Avoid including raygui implementation again
+#define GUI_WINDOW_FILE_DIALOG_IMPLEMENTATION
+#include "gui_window_file_dialog.h"
 
 GuiWindowFileDialogState fileDialogState =
                         InitGuiWindowFileDialog(GetWorkingDirectory());
@@ -33,10 +40,11 @@ void FileSelect(Image &image, char fileNameToLoad[512]) {
     if (fileDialogState.windowActive)
         GuiLock();
     if (GuiButton((Rectangle){ 20, 20, 140, 30 },
-        GuiIconText(ICON_FILE_OPEN, "Open Image")))
+            GuiIconText(ICON_FILE_OPEN, "Open Image")))
+        fileDialogState.windowActive = true;
+
     DrawText(fileNameToLoad, 20, 60, 10, GRAY);
 
-        fileDialogState.windowActive = true;
     GuiUnlock();
 /* -------------------------------------------------------------------------- */
     GuiWindowFileDialog(&fileDialogState);
