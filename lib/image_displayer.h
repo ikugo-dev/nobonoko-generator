@@ -3,7 +3,8 @@
 
 class ImageDisplayer {
 private:
-    static Texture2D *texture;
+    static Image image;
+    static Texture2D texture;
 public:
     static void Display();
     static void Update(Image &image);

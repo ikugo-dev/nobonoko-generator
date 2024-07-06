@@ -1,21 +1,24 @@
 #include "image_displayer.h"
 
-Texture2D *ImageDisplayer::texture = nullptr;
+Image ImageDisplayer::image = {0};
+Texture2D ImageDisplayer::texture;
 
 void ImageDisplayer::ImageDisplayer::Display() {
-    if (ImageDisplayer::texture == nullptr)
+    if (image.data == 0)
         return;
-    DrawTexture(*ImageDisplayer::texture,
-                GetScreenWidth()/2 - ImageDisplayer::texture->width/2,
-                GetScreenHeight()/2 - ImageDisplayer::texture->height/2 - 5,
+    
+    DrawTexture(ImageDisplayer::texture,
+                GetScreenWidth()/2 - ImageDisplayer::texture.width/2,
+                GetScreenHeight()/2 - ImageDisplayer::texture.height/2 - 5,
                 WHITE);
-    DrawRectangleLines(GetScreenWidth()/2 - ImageDisplayer::texture->width/2,
-                       GetScreenHeight()/2 - ImageDisplayer::texture->height/2 - 5,
-                       ImageDisplayer::texture->width,
-                       ImageDisplayer::texture->height,
+    DrawRectangleLines(GetScreenWidth()/2 - ImageDisplayer::texture.width/2,
+                       GetScreenHeight()/2 - ImageDisplayer::texture.height/2 - 5,
+                       ImageDisplayer::texture.width,
+                       ImageDisplayer::texture.height,
                        BLACK);
 }
 
-void ImageDisplayer::Update(Image &texture) {
-    *ImageDisplayer::texture = LoadTextureFromImage(texture);
+void ImageDisplayer::Update(Image &image) {
+    ImageDisplayer::image = image;
+    ImageDisplayer::texture = LoadTextureFromImage(image);
 }
