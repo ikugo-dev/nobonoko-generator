@@ -12,6 +12,9 @@
 
 void FileSelect(Image &image, char fileNameToLoad[512]);
 void Pixelate(Image &image, int &numberOfPixels);
+void WaveCollapse(Image &image);
+void SaveImage();
+
 
 int main(void) {
 
@@ -25,9 +28,10 @@ int main(void) {
     int numberOfPixels = 50;
     char fileNameToLoad[512] = { 0 };
     Image image = { 0 };
+
     while (!WindowShouldClose())
     {
-        if (IsKeyPressed(KEY_S)) {
+        if (IsKeyPressed(KEY_T)) {
             style = (style + 1) % 5;
             switch (style) {
                 case 0: GuiLoadStyleDefault(); break;
@@ -44,6 +48,9 @@ int main(void) {
             ImageDisplayer::Display();
             FileSelect(image, fileNameToLoad);
             Pixelate(image, numberOfPixels);
+            // WaveCollapse(image);
+            SaveImage();
+            
         
         EndDrawing();
     }

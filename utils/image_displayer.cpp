@@ -20,7 +20,12 @@ void ImageDisplayer::ImageDisplayer::Display() {
 }
 
 void ImageDisplayer::Update(Image &image) {
-    ImageResize(&image, IMAGE_SIZE, IMAGE_SIZE);
+    if (image.height != IMAGE_SIZE || image.width != IMAGE_SIZE)
+        ImageResize(&image, IMAGE_SIZE, IMAGE_SIZE);
     ImageDisplayer::image = image;
     ImageDisplayer::texture = LoadTextureFromImage(image);
+}
+
+Image ImageDisplayer::GetImage() {
+    return ImageDisplayer::image;
 }

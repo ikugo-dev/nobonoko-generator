@@ -8,4 +8,5 @@ private:
 public:
     static void Display();
     static void Update(Image &image);
+    static Image GetImage();
 };
