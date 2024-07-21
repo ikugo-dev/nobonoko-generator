@@ -2,20 +2,28 @@
 #include "raygui.h"
 #include "image_displayer.h"
 
-void PixelateImage(Image &image, int numberOfPixels) {
-    int pixelSize = IMAGE_SIZE / numberOfPixels;
-    int subPixelDensity = pixelSize * pixelSize;
+void Pixelate(Image &image) {
+
+    if (!GuiButton((Rectangle){ 180, 20, 140, 30 },
+                GuiIconText(ICON_1UP, "Pixelate")))
+        return;
+    if (ImageDisplayer::GetImage().data == 0)
+        return;
+    
+    
+    int subPixelDensity = PIXEL_SIZE * PIXEL_SIZE;
 
     Image newImage = ImageCopy(image);
     ImageClearBackground(&newImage, RAYWHITE);
-    for (int x = 0; x < numberOfPixels; x++) {
-        for (int y = 0; y < numberOfPixels; y++) {
+
+    for (int x = 0; x < NUMBER_OF_PIXELS; x++) {
+        for (int y = 0; y < NUMBER_OF_PIXELS; y++) {
             unsigned long r = 0, g = 0, b = 0, a = 0;
-            for (int xSubPixel = 0; xSubPixel < pixelSize; xSubPixel++) {
-                for (int ySubPixel = 0; ySubPixel < pixelSize; ySubPixel++) {
+            for (int xSubPixel = 0; xSubPixel < PIXEL_SIZE; xSubPixel++) {
+                for (int ySubPixel = 0; ySubPixel < PIXEL_SIZE; ySubPixel++) {
                     Color subPixel = GetImageColor(image,
-                                                xSubPixel + x*pixelSize,
-                                                ySubPixel + y*pixelSize);
+                                                xSubPixel + x*PIXEL_SIZE,
+                                                ySubPixel + y*PIXEL_SIZE);
                     r += subPixel.r;
                     g += subPixel.g;
                     b += subPixel.b;
@@ -23,37 +31,15 @@ void PixelateImage(Image &image, int numberOfPixels) {
                 }
             }
             Color pixelColor = Color{(unsigned char)(r / subPixelDensity),
-                                     (unsigned char)(g / subPixelDensity),
-                                     (unsigned char)(b / subPixelDensity),
-                                     (unsigned char)(a / subPixelDensity)};
+                                    (unsigned char)(g / subPixelDensity),
+                                    (unsigned char)(b / subPixelDensity),
+                                    (unsigned char)(a / subPixelDensity)};
             // pixelColor = (x+y) % 2 ? RED : BLUE;
             ImageDrawRectangle(&newImage,
-                               x * pixelSize, y * pixelSize,
-                               pixelSize, pixelSize,
-                               pixelColor);
+                            x * PIXEL_SIZE, y * PIXEL_SIZE,
+                            PIXEL_SIZE, PIXEL_SIZE,
+                            pixelColor);
         }
     }
     ImageDisplayer::Update(newImage);
-}
-
-void Pixelate(Image &image, int &numberOfPixels) {
-
-    if (GuiButton((Rectangle){ 180, 20, 140, 30 },
-                GuiIconText(ICON_1UP, "Pixelate"))) {
-        PixelateImage(image, numberOfPixels);
-    }
-
-    if (IsKeyPressed(KEY_UP)) {
-        if (numberOfPixels < IMAGE_SIZE)
-            numberOfPixels++;
-        while (IMAGE_SIZE % numberOfPixels != 0 && numberOfPixels < IMAGE_SIZE)
-            numberOfPixels++;
-        PixelateImage(image, numberOfPixels);
-    } else if (IsKeyPressed(KEY_DOWN)) {
-        if (numberOfPixels > 1)
-            numberOfPixels--;
-        while (IMAGE_SIZE % numberOfPixels != 0 && numberOfPixels > 1)
-            numberOfPixels--;
-        PixelateImage(image, numberOfPixels);
-    }
 }

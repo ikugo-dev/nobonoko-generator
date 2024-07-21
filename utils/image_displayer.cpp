@@ -20,8 +20,14 @@ void ImageDisplayer::ImageDisplayer::Display() {
 }
 
 void ImageDisplayer::Update(Image &image) {
+    // if (ImageDisplayer::image.data != 0)
+    //     UnloadImage(ImageDisplayer::image);
+    
     if (image.height != IMAGE_SIZE || image.width != IMAGE_SIZE)
         ImageResize(&image, IMAGE_SIZE, IMAGE_SIZE);
+    
+    UnloadTexture(ImageDisplayer::texture);
+    
     ImageDisplayer::image = image;
     ImageDisplayer::texture = LoadTextureFromImage(image);
 }
