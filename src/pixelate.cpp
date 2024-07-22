@@ -1,19 +1,24 @@
 #include "program_specs.h"
 #include "raygui.h"
-#include "image_displayer.h"
 
-void Pixelate(Image &image) {
+Image Pixelate(Image &originalImage) {
+    static Image pixelatedImage;
+    static Texture2D pixelatedTexture;
+    DrawTexture(pixelatedTexture,
+                GetScreenWidth()/2 - IMAGE_SIZE/2,
+                GetScreenHeight()/2 - IMAGE_SIZE/2,
+                WHITE);
 
     if (!GuiButton((Rectangle){ 180, 20, 140, 30 },
                 GuiIconText(ICON_1UP, "Pixelate")))
-        return;
-    if (ImageDisplayer::GetImage().data == 0)
-        return;
-    
+        return pixelatedImage;
+
+    if (originalImage.data == 0)
+        return pixelatedImage;
     
     int subPixelDensity = PIXEL_SIZE * PIXEL_SIZE;
 
-    Image newImage = ImageCopy(image);
+    Image newImage = ImageCopy(originalImage);
     ImageClearBackground(&newImage, RAYWHITE);
 
     for (int x = 0; x < NUMBER_OF_PIXELS; x++) {
@@ -21,7 +26,7 @@ void Pixelate(Image &image) {
             unsigned long r = 0, g = 0, b = 0, a = 0;
             for (int xSubPixel = 0; xSubPixel < PIXEL_SIZE; xSubPixel++) {
                 for (int ySubPixel = 0; ySubPixel < PIXEL_SIZE; ySubPixel++) {
-                    Color subPixel = GetImageColor(image,
+                    Color subPixel = GetImageColor(originalImage,
                                                 xSubPixel + x*PIXEL_SIZE,
                                                 ySubPixel + y*PIXEL_SIZE);
                     r += subPixel.r;
@@ -41,5 +46,7 @@ void Pixelate(Image &image) {
                             pixelColor);
         }
     }
-    ImageDisplayer::Update(newImage);
+    pixelatedImage = ImageCopy(newImage);
+    pixelatedTexture = LoadTextureFromImage(pixelatedImage);
+    return pixelatedImage;
 }

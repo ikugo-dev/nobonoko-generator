@@ -1,6 +1,5 @@
 #include "program_specs.h"
 #include "raylib.h"
-#include "image_displayer.h"
 
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
@@ -12,7 +11,18 @@
 GuiWindowFileDialogState fileDialogState =
                         InitGuiWindowFileDialog(GetWorkingDirectory());
 
-void FileSelect(Image &image, char fileNameToLoad[512]) {
+Image FileSelect(char fileNameToLoad[512]) {
+    static Image originalImage;
+    static Texture2D originalTexture;
+
+    DrawTexture(originalTexture,
+                GetScreenWidth()/2 - IMAGE_SIZE/2,
+                GetScreenHeight()/2 - IMAGE_SIZE/2,
+                WHITE);
+    DrawRectangleLines(GetScreenWidth()/2 - IMAGE_SIZE/2,   //flavour..
+                       GetScreenHeight()/2 - IMAGE_SIZE/2,
+                       IMAGE_SIZE, IMAGE_SIZE,
+                       BLACK);
 /* --------------------------------- update --------------------------------- */
     if (fileDialogState.SelectFilePressed)
     {
@@ -23,17 +33,16 @@ void FileSelect(Image &image, char fileNameToLoad[512]) {
                    TextFormat("%s/%s",
                                fileDialogState.dirPathText,
                                fileDialogState.fileNameText));
-            image = LoadImage(fileNameToLoad);
-
-            ImageDisplayer::Update(image);
+            originalImage =  LoadImage(fileNameToLoad);
+            if (originalImage.height != IMAGE_SIZE ||
+                originalImage.width != IMAGE_SIZE)
+                ImageResize(&originalImage, IMAGE_SIZE, IMAGE_SIZE);
+            originalTexture = LoadTextureFromImage(originalImage);
         }
 
         fileDialogState.SelectFilePressed = false;
     }
-/* -------------------------------------------------------------------------- */
 /* ---------------------------------- draw ---------------------------------- */
-
-/* -------------------------------------------------------------------------- */
     if (fileDialogState.windowActive)
         GuiLock();
     if (GuiButton((Rectangle){ 20, 20, 140, 30 },
@@ -43,7 +52,7 @@ void FileSelect(Image &image, char fileNameToLoad[512]) {
     DrawText(fileNameToLoad, 20, 60, 10, GRAY);
 
     GuiUnlock();
-/* -------------------------------------------------------------------------- */
     GuiWindowFileDialog(&fileDialogState);
-/* -------------------------------------------------------------------------- */
+    
+    return originalImage;
 }
