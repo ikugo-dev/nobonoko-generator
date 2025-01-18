@@ -2,10 +2,10 @@
 // #include <cstring>
 #include <ctime>
 #include <cstdio>
-#include "raygui.h"
-#include "program_specs.h"
+#include "../lib/raygui.h"
+#include "../lib/program_specs.h"
 
-constexpr char *saveDirectory = "./saves/";
+const char *saveDirectory = "./saves/";
 
 void SaveImage(Image &pixelatedImage, Image &linesImage) {
     if (GuiButton((Rectangle){ 500, 20, 140, 30 },

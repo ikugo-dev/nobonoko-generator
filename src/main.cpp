@@ -1,8 +1,10 @@
-#include "program_specs.h"
-#include "raygui.h"
+#include "../lib/program_specs.h"
+#include <cstdio>
+#include <cstring>
+#include "../lib/raygui.h"
 /* -------------------------------------------------------------------------- */
+#include <raylib.h>
 #include <stdlib.h> //for the themes
-#include <string.h>
 #include "../utils/styles/dark.h"
 #include "../utils/styles/bluish.h"
 #include "../utils/styles/candy.h"
@@ -10,10 +12,15 @@
 /* -------------------------------------------------------------------------- */
 
 Image FileSelect(char fileNameToLoad[512]);
-Image Pixelate(Image &originalImage);
-Image GenerateLines(Image &pixelatedImage);
-void SaveImage(Image &pixelatedImage, Image &linesImage);
+Texture2D GetOriginalTexture();
 
+Image Pixelate(Image &originalImage);
+Texture2D getPixelatedTexture();
+
+Image GenerateLines(Image &pixelatedImage);
+Texture2D GetLinesTexture();
+
+void SaveImage(Image &pixelatedImage, Image &linesImage);
 
 int main(void) {
 
@@ -45,9 +52,28 @@ int main(void) {
         BeginDrawing();
 
             ClearBackground(GetColor(GuiGetStyle(DEFAULT, BACKGROUND_COLOR)));
+
+            DrawRectangleLines(GetScreenWidth()/2 - IMAGE_SIZE/2,
+                               GetScreenHeight()/2 - IMAGE_SIZE/2 - 1,
+                               IMAGE_SIZE+1, IMAGE_SIZE+1,
+                               BLACK);
+            DrawTexture(GetOriginalTexture(),
+                        GetScreenWidth()/2 - IMAGE_SIZE/2,
+                        GetScreenHeight()/2 - IMAGE_SIZE/2,
+                        WHITE);
+            DrawTexture(getPixelatedTexture(),
+                        GetScreenWidth()/2 - IMAGE_SIZE/2,
+                        GetScreenHeight()/2 - IMAGE_SIZE/2,
+                        WHITE);
+            DrawTexture(GetLinesTexture(),
+                        GetScreenWidth()/2 - IMAGE_SIZE/2 - 2*DOT,
+                        GetScreenHeight()/2 - IMAGE_SIZE/2 - 2*DOT,
+                        WHITE);
+
             originalImage = FileSelect(fileNameToLoad);
             pixelatedImage = Pixelate(originalImage);
             linesImage = GenerateLines(pixelatedImage);
+
             SaveImage(pixelatedImage, linesImage);
         
         EndDrawing();

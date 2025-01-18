@@ -1,5 +1,5 @@
-#include "program_specs.h"
-#include <raygui.h>
+#include "../lib/program_specs.h"
+#include "../lib/raygui.h"
 #include "../utils/shapes.h"
 
 constexpr int dotArea = dotNumber * DOT;
@@ -8,17 +8,13 @@ Color GetRandColor(Image &image);
 void DrawShape(Image &image, const bool shape[dotNumber][dotNumber],
                 int x, int y, const Color &color);
 
+static Image linesImage;
+static Texture2D linesTexture;
+Texture2D GetLinesTexture() {
+    return linesTexture;
+}
 
 Image GenerateLines(Image &pixelatedImage) {
-    static Image linesImage;
-    static Texture2D linesTexture;
-    
-    DrawTexture(linesTexture,
-                GetScreenWidth()/2 - IMAGE_SIZE/2 - 2*DOT,
-                GetScreenHeight()/2 - IMAGE_SIZE/2 - 2*DOT,
-                WHITE);
-
-
     if (!GuiButton((Rectangle){ 340, 20, 140, 30 },
                 GuiIconText(ICON_GEAR, "Generate")))
         return linesImage;

@@ -1,14 +1,15 @@
-#include "program_specs.h"
-#include "raygui.h"
+#include "../lib/program_specs.h"
+#include "../lib/raygui.h"
+#include <raylib.h>
+
+
+static Image pixelatedImage;
+static Texture2D pixelatedTexture;
+Texture2D getPixelatedTexture() {
+    return pixelatedTexture;
+}
 
 Image Pixelate(Image &originalImage) {
-    static Image pixelatedImage;
-    static Texture2D pixelatedTexture;
-    DrawTexture(pixelatedTexture,
-                GetScreenWidth()/2 - IMAGE_SIZE/2,
-                GetScreenHeight()/2 - IMAGE_SIZE/2,
-                WHITE);
-
     if (!GuiButton((Rectangle){ 180, 20, 140, 30 },
                 GuiIconText(ICON_1UP, "Pixelate")))
         return pixelatedImage;

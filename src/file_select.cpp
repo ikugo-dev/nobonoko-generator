@@ -1,28 +1,24 @@
-#include "program_specs.h"
+#include "../lib/program_specs.h"
 #include "raylib.h"
 
 #define RAYGUI_IMPLEMENTATION
-#include "raygui.h"
+#include "../lib/raygui.h"
 
 #undef RAYGUI_IMPLEMENTATION            // Avoid including raygui implementation again
 #define GUI_WINDOW_FILE_DIALOG_IMPLEMENTATION
-#include "gui_window_file_dialog.h"
+#include "../lib/gui_window_file_dialog.h"
 
 GuiWindowFileDialogState fileDialogState =
                         InitGuiWindowFileDialog(GetWorkingDirectory());
 
-Image FileSelect(char fileNameToLoad[512]) {
-    static Image originalImage;
-    static Texture2D originalTexture;
 
-    DrawTexture(originalTexture,
-                GetScreenWidth()/2 - IMAGE_SIZE/2,
-                GetScreenHeight()/2 - IMAGE_SIZE/2,
-                WHITE);
-    DrawRectangleLines(GetScreenWidth()/2 - IMAGE_SIZE/2,   //flavour..
-                       GetScreenHeight()/2 - IMAGE_SIZE/2,
-                       IMAGE_SIZE, IMAGE_SIZE,
-                       BLACK);
+static Image originalImage;
+static Texture2D originalTexture;
+Texture2D GetOriginalTexture() {
+    return originalTexture;
+}
+
+Image FileSelect(char fileNameToLoad[512]) {
 /* --------------------------------- update --------------------------------- */
     if (fileDialogState.SelectFilePressed)
     {
