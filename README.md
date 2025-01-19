@@ -48,3 +48,5 @@ Go from left to right:
 - Pixelate it
 - Generate the lines as many times as you want (until you get the right colour)
 - Save (if you want to, no judgement here)
+
+Tip: Press **t** on your keyboard to change the theme!
