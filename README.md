@@ -2,7 +2,7 @@
 
 A raylib+raygui program that can transform any .png file into a [nobonoko](https://www.youtube.com/@nobonokomusic)-esque album cover image.
 
-<img src="ss.png" alt="raylib screenshot" width="460"/>
+<img src="./example.gif" align="center" alt="gif example" width="460"/>
 
 [nobonoko](https://www.youtube.com/@nobonokomusic) is a music artist that I listen to (pretty much) every time I write code. A signature look for some of his albums is this pixel art bubble effect, and I wanted to challenge myself and write an automated way to do this.
 
