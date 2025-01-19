@@ -11,7 +11,7 @@ Here are some of the albums:
 - [Television (2024)](https://www.youtube.com/watch?v=6-aX4rsb3fw)
 - [Swamp (2023)](https://www.youtube.com/watch?v=SsHOS_wOM7Q)
 
-### ⚠️ **Warning
+### ⚠️ **Warning**
 
 This is still in development:
 - It **only** works with .png files
